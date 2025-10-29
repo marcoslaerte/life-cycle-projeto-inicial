@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit, SimpleChanges, OnChanges } from '@angular/core';
+import { Item } from 'src/app/interfaces/iItem';
 import { ListaDeCompraService } from 'src/app/service/lista-de-compra.service';
 
 @Component({
@@ -6,8 +7,11 @@ import { ListaDeCompraService } from 'src/app/service/lista-de-compra.service';
   templateUrl: './input.component.html',
   styleUrls: ['./input.component.css']
 })
-export class InputComponent implements OnInit {
+export class InputComponent implements OnInit, OnChanges {
+
+  @Input() itemQueVaiSerEditado!: Item;
   valorItem! : string;
+
   constructor(private listaService: ListaDeCompraService) { }
 
   ngOnInit(): void { }
@@ -19,5 +23,11 @@ export class InputComponent implements OnInit {
 
   limparCampo() {
     this.valorItem = '';
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    if(!changes['itemQueVaiSerEditado'].firstChange) {
+      this.valorItem = this.itemQueVaiSerEditado?.nome;
+    }
   }
 }
