@@ -23,6 +23,11 @@ export class AppComponent implements OnInit, DoCheck {
     this.itemParaSerEditado = item;
   }
 
+  deletarItem(id: number) {
+    const index = this.listaDeCompra.findIndex((item) => item.id === id);
+    this.listaDeCompra.splice(index, 1);
+  }
+
   ngDoCheck(): void { // É chamado sempre que houver qualquer alteração no componente pai ou nos filhos dele. Usar com cuidado para não prejudicar a performance.
     console.log('DoCheck foi chamado');
     this.listaService.atualizarLocalStorage()
